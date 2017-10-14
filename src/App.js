@@ -5,11 +5,25 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      windowDimensions: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      },
       shapes: [],
       isMouseDown: false,
       newShapeParams: null,
       newShape: null,
     };
+    this.onResize = this.onResize.bind(this);
+  }
+
+  onResize() {
+    this.setState({
+      windowDimensions: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      }
+    });
   }
 
   createNewShape(params) {
@@ -26,6 +40,8 @@ class App extends Component {
   }
 
   componentWillMount() {
+    window.addEventListener('resize', this.onResize);
+
     var newShapes = [
       <Rect x={10} y={10} key={0}
         width={50} height={50}
@@ -34,6 +50,10 @@ class App extends Component {
     this.setState({
       shapes: newShapes,
     });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
   }
 
   componentDidMount() {
@@ -86,7 +106,7 @@ class App extends Component {
 
   render() {
     var stage = (
-      <Stage ref='stage' width={640} height={480}>
+      <Stage ref='stage' width={this.state.windowDimensions.width} height={this.state.windowDimensions.height}>
         <Layer>
           { this.state.shapes }
           { this.state.newShape }
