@@ -6,6 +6,7 @@ class App extends Component {
     super(props);
     this.state = {
       shapes: [],
+      isMouseDown: false,
     };
   }
 
@@ -16,9 +17,31 @@ class App extends Component {
     });
   }
 
+  componentDidMount() {
+    var stage = this.refs.stage.getStage();
+    
+    stage.on('contentMousedown', ({evt}) => {
+      this.setState({
+        isMouseDown: true,
+      });
+      console.log('Mouse Down');
+    });
+    stage.on('contentMouseup', ({evt}) => {
+      this.setState({
+        isMouseDown: false,
+      });
+      console.log('Mouse Up');
+    });
+    stage.on('contentMousemove', ({evt}) => {
+      if (this.state.isMouseDown) {
+        console.log(evt.clientX, evt.clientY);
+      }
+    });
+  }
+
   render() {
     var stage = (
-      <Stage width={800} height={800}>
+      <Stage ref='stage' width={800} height={800}>
         <Layer>
           {this.state.shapes}
         </Layer>
