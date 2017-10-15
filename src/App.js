@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import RaisedButton from 'material-ui/RaisedButton';
 import { Layer, Stage, Rect, Ellipse, Line } from 'react-konva';
 
 import Sidebar from './sidebar.js';
