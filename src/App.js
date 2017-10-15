@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import RaisedButton from 'material-ui/RaisedButton';
 import { Layer, Stage, Rect, Ellipse, Line } from 'react-konva';
+
+injectTapEventPlugin();
 
 class App extends Component {
   constructor(props) {
@@ -20,6 +25,12 @@ class App extends Component {
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
+  }
+
+  getChildContext() {
+    return {
+      muiTheme: getMuiTheme(),
+    };
   }
 
   onResize() {
@@ -57,7 +68,6 @@ class App extends Component {
         />
       );
     } else if (params.type === 'line') {
-      console.log('Drawing line');
       return (
         <Line
           key={params.key}
@@ -92,12 +102,13 @@ class App extends Component {
 
   onMouseDown({ evt }) {
     var params = {
+      // TODO: use unique IDs
       key: (this.state.shapes[this.state.shapes.length-1] != null) ? (parseInt(this.state.shapes[this.state.shapes.length-1].key, 10) + 1) : 0,
       type: this.state.shapeType,
-      startX: evt.clientX,
-      startY: evt.clientY,
-      endX: evt.clientX,
-      endY: evt.clientY,
+      startX: evt.offsetX,
+      startY: evt.offsetY,
+      endX: evt.offsetX,
+      endY: evt.offsetY,
       fill: this.state.color,
     };
 
@@ -112,22 +123,22 @@ class App extends Component {
   onMouseMove({ evt }) {
     if (this.state.isMouseDown) {
       var params = { ...this.state.newShapeParams };
-      params.endX = evt.clientX;
-      params.endY = evt.clientY;
+      params.endX = evt.offsetX;
+      params.endY = evt.offsetY;
 
       this.setState({
         newShape: this.createNewShape(params),
         newShapeParams: params,
       });
 
-      console.log(evt.clientX, evt.clientY);
+      console.log(params.endX, params.endY);
     }
   }
 
   onMouseUp({ evt }) {
     var params = { ...this.state.newShapeParams };
-    params.endX = evt.clientX;
-    params.endY = evt.clientY;
+    params.endX = evt.offsetX;
+    params.endY = evt.offsetY;
 
     this.setState({
       newShape: null,
@@ -147,17 +158,37 @@ class App extends Component {
   }
 
   render() {
-    var stage = (
-      <Stage ref='stage' width={this.state.windowDimensions.width} height={this.state.windowDimensions.height}>
-        <Layer>
-          { this.state.shapes }
-          { this.state.newShape }
-        </Layer>
-      </Stage>
-    );
+    const sidebarWidth = 360;
 
-    return stage;
+    return (
+      <div>
+        <div style={{
+          width: sidebarWidth,
+          height: this.state.windowDimensions.height,
+          float: 'left',
+          backgroundColor: 'lightblue',
+        }}>
+          <RaisedButton label="Hello world" />
+        </div>
+        <div style={{
+          float: 'right',
+        }}>
+          <Stage ref='stage'
+            width={this.state.windowDimensions.width - sidebarWidth}
+            height={this.state.windowDimensions.height}>
+            <Layer>
+              { this.state.shapes }
+              { this.state.newShape }
+            </Layer>
+          </Stage>
+        </div>
+      </div>
+    );
   }
 }
+
+App.childContextTypes = {
+  muiTheme: React.PropTypes.object.isRequired,
+};
 
 export default App;
