@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layer, Stage, Rect, Ellipse } from 'react-konva';
+import { Layer, Stage, Rect, Ellipse, Line } from 'react-konva';
 
 class App extends Component {
   constructor(props) {
@@ -9,7 +9,7 @@ class App extends Component {
         width: window.innerWidth,
         height: window.innerHeight,
       },
-      shapeType: 'ellipse',
+      shapeType: 'line',
       color: 'blue',
       shapes: [],
       isMouseDown: false,
@@ -56,6 +56,18 @@ class App extends Component {
           fill={params.fill}
         />
       );
+    } else if (params.type === 'line') {
+      console.log('Drawing line');
+      return (
+        <Line
+          key={params.key}
+          x={params.startX}
+          y={params.startY}
+          points={[0, 0, params.endX-params.startX, params.endY-params.startY]}
+          stroke={params.fill}
+          strokeWidth={3}
+        />
+      );
     } else {
       return null;
     }
@@ -80,7 +92,7 @@ class App extends Component {
 
   onMouseDown({ evt }) {
     var params = {
-      key: parseInt(this.state.shapes[this.state.shapes.length-1].key) + 1,
+      key: (this.state.shapes[this.state.shapes.length-1] != null) ? (parseInt(this.state.shapes[this.state.shapes.length-1].key, 10) + 1) : 0,
       type: this.state.shapeType,
       startX: evt.clientX,
       startY: evt.clientY,
