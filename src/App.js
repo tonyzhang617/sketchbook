@@ -9,12 +9,16 @@ class App extends Component {
         width: window.innerWidth,
         height: window.innerHeight,
       },
+      shapeType: 'rectangle',
       shapes: [],
       isMouseDown: false,
       newShapeParams: null,
       newShape: null,
     };
     this.onResize = this.onResize.bind(this);
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
   }
 
   onResize() {
@@ -27,16 +31,20 @@ class App extends Component {
   }
 
   createNewShape(params) {
-    return (
-      <Rect
-        key={params.key}
-        x={params.x}
-        y={params.y}
-        width={params.width}
-        height={params.height}
-        fill='green'
-      />
-    );
+    if (params.type === 'rectangle') {
+      return (
+        <Rect
+          key={params.key}
+          x={params.startX}
+          y={params.startY}
+          width={params.endX - params.startX}
+          height={params.endY - params.startY}
+          fill='green'
+        />
+      );
+    } else {
+      return null;
+    }
   }
 
   componentWillMount() {
@@ -56,52 +64,59 @@ class App extends Component {
     window.removeEventListener('resize', this.onResize);
   }
 
-  componentDidMount() {
-    var stage = this.refs.stage.getStage();
+  onMouseDown({ evt }) {
+    var params = {
+      key: this.state.shapes[this.state.shapes.length-1].key + 1,
+      type: this.state.shapeType,
+      startX: evt.clientX,
+      startY: evt.clientY,
+      endX: evt.clientX,
+      endY: evt.clientY,
+    };
 
-    stage.on('contentMousedown', ({evt}) => {
-      var params = {
-        key: this.state.shapes[this.state.shapes.length-1].key + 1,
-        x: evt.clientX,
-        y: evt.clientY,
-        width: 1,
-        height: 1,
-      };
+    this.setState({
+      newShape: this.createNewShape(params),
+      newShapeParams: params,
+      isMouseDown: true,
+    });
+    console.log('Mouse Down');
+  }
+
+  onMouseMove({ evt }) {
+    if (this.state.isMouseDown) {
+      var params = { ...this.state.newShapeParams };
+      params.endX = evt.clientX;
+      params.endY = evt.clientY;
 
       this.setState({
         newShape: this.createNewShape(params),
         newShapeParams: params,
-        isMouseDown: true,
       });
-      console.log('Mouse Down');
-    });
-    stage.on('contentMousemove', ({evt}) => {
-      if (this.state.isMouseDown) {
-        var params = { ...this.state.newShapeParams };
-        params.width = evt.clientX - params.x;
-        params.height = evt.clientY - params.y;
 
-        this.setState({
-          newShape: this.createNewShape(params),
-          newShapeParams: params,
-        });
+      console.log(evt.clientX, evt.clientY);
+    }
+  }
 
-        console.log(evt.clientX, evt.clientY);
-      }
-    });
-    stage.on('contentMouseup', ({evt}) => {
-      var params = { ...this.state.newShapeParams };
-      params.width = evt.clientX - params.x;
-      params.height = evt.clientY - params.y;
+  onMouseUp({ evt }) {
+    var params = { ...this.state.newShapeParams };
+    params.endX = evt.clientX;
+    params.endY = evt.clientY;
 
-      this.setState({
-        newShape: null,
-        newShapeParams: null,
-        shapes: this.state.shapes.concat([this.createNewShape(params)]),
-        isMouseDown: false,
-      });
-      console.log('Mouse Up');
+    this.setState({
+      newShape: null,
+      newShapeParams: null,
+      shapes: this.state.shapes.concat([this.createNewShape(params)]),
+      isMouseDown: false,
     });
+    console.log('Mouse Up');
+  }
+
+  componentDidMount() {
+    var stage = this.refs.stage.getStage();
+
+    stage.on('contentMousedown', this.onMouseDown);
+    stage.on('contentMousemove', this.onMouseMove);
+    stage.on('contentMouseup', this.onMouseUp);
   }
 
   render() {
