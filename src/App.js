@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layer, Rect, Stage, Group } from 'react-konva';
+import { Layer, Stage, Rect, Ellipse } from 'react-konva';
 
 class App extends Component {
   constructor(props) {
@@ -9,7 +9,8 @@ class App extends Component {
         width: window.innerWidth,
         height: window.innerHeight,
       },
-      shapeType: 'rectangle',
+      shapeType: 'ellipse',
+      color: 'blue',
       shapes: [],
       isMouseDown: false,
       newShapeParams: null,
@@ -39,7 +40,20 @@ class App extends Component {
           y={params.startY}
           width={params.endX - params.startX}
           height={params.endY - params.startY}
-          fill='green'
+          fill={params.fill}
+        />
+      );
+    } else if (params.type === 'ellipse') {
+      return (
+        <Ellipse
+          key={params.key}
+          x={params.startX}
+          y={params.startY}
+          radius={{
+            x: Math.abs(params.endX - params.startX),
+            y: Math.abs(params.endY - params.startY),
+          }}
+          fill={params.fill}
         />
       );
     } else {
@@ -66,12 +80,13 @@ class App extends Component {
 
   onMouseDown({ evt }) {
     var params = {
-      key: this.state.shapes[this.state.shapes.length-1].key + 1,
+      key: parseInt(this.state.shapes[this.state.shapes.length-1].key) + 1,
       type: this.state.shapeType,
       startX: evt.clientX,
       startY: evt.clientY,
       endX: evt.clientX,
       endY: evt.clientY,
+      fill: this.state.color,
     };
 
     this.setState({
