@@ -4,6 +4,9 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Layer, Stage, Rect, Ellipse, Line } from 'react-konva';
 
+import Sidebar from './sidebar.js';
+import { Shapes } from './utils.js';
+
 injectTapEventPlugin();
 
 class App extends Component {
@@ -14,7 +17,7 @@ class App extends Component {
         width: window.innerWidth,
         height: window.innerHeight,
       },
-      shapeType: 'line',
+      shapeType: Shapes.line,
       color: 'blue',
       shapes: [],
       isMouseDown: false,
@@ -22,6 +25,7 @@ class App extends Component {
       newShape: null,
     };
     this.onResize = this.onResize.bind(this);
+    this.onShapeSelected = this.onShapeSelected.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
@@ -42,8 +46,16 @@ class App extends Component {
     });
   }
 
+  onShapeSelected(shape) {
+    if (shape !== this.state.shapeType) {
+      this.setState({
+        shapeType: shape,
+      });
+    }
+  }
+
   createNewShape(params) {
-    if (params.type === 'rectangle') {
+    if (params.type === Shapes.rectangle) {
       return (
         <Rect
           key={params.key}
@@ -54,7 +66,7 @@ class App extends Component {
           fill={params.fill}
         />
       );
-    } else if (params.type === 'ellipse') {
+    } else if (params.type === Shapes.ellipse) {
       return (
         <Ellipse
           key={params.key}
@@ -67,7 +79,7 @@ class App extends Component {
           fill={params.fill}
         />
       );
-    } else if (params.type === 'line') {
+    } else if (params.type === Shapes.line) {
       return (
         <Line
           key={params.key}
@@ -164,17 +176,10 @@ class App extends Component {
       <div style={{
         position: 'relative',
       }}>
-        <div style={{
-          width: sidebarWidth,
-          height: this.state.windowDimensions.height,
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          float: 'left',
-          backgroundColor: 'lightblue',
-        }}>
-          <RaisedButton label="Hello world" />
-        </div>
+        <Sidebar
+          width={sidebarWidth}
+          onShapeSelected={this.onShapeSelected}
+        />
 
         <div style={{
           marginLeft: sidebarWidth,
