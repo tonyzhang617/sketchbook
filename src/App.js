@@ -161,17 +161,23 @@ class App extends Component {
     const sidebarWidth = 360;
 
     return (
-      <div>
+      <div style={{
+        position: 'relative',
+      }}>
         <div style={{
           width: sidebarWidth,
           height: this.state.windowDimensions.height,
+          position: 'absolute',
+          top: 0,
+          left: 0,
           float: 'left',
           backgroundColor: 'lightblue',
         }}>
           <RaisedButton label="Hello world" />
         </div>
+
         <div style={{
-          float: 'right',
+          marginLeft: sidebarWidth,
         }}>
           <Stage ref='stage'
             width={this.state.windowDimensions.width - sidebarWidth}
