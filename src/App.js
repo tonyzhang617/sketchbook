@@ -96,15 +96,6 @@ class App extends Component {
 
   componentWillMount() {
     window.addEventListener('resize', this.onResize);
-
-    var newShapes = [
-      <Rect x={10} y={10} key={0}
-        width={50} height={50}
-        fill='blue' />
-    ];
-    this.setState({
-      shapes: newShapes,
-    });
   }
 
   componentWillUnmount() {
