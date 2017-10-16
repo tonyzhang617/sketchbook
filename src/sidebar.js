@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
+import Paper from 'material-ui/Paper';
 
 import { Shapes } from './utils.js';
 
@@ -9,8 +10,8 @@ const styles = {
     position: 'absolute',
     top: 0,
     left: 0,
-    float: 'left',
-    backgroundColor: '#EF5350'
+    float: 'left'
+    // backgroundColor: '#EF5350'
   },
   button: {
     display: 'block',
@@ -21,10 +22,12 @@ const styles = {
 export default class Sidebar extends Component {
   render() {
     return (
-      <div style={{
-        ...styles.sidebar,
-        width: this.props.width,
-      }}>
+      <Paper
+        zDepth={3}
+        style={{
+          ...styles.sidebar,
+          width: this.props.width,
+        }}>
         <RaisedButton
           label="Rectangle"
           onTouchTap={event => this.props.onShapeSelected(Shapes.rectangle)}
@@ -40,7 +43,7 @@ export default class Sidebar extends Component {
           onTouchTap={event => this.props.onShapeSelected(Shapes.line)}
           style={styles.button}
         />
-      </div>
+      </Paper>
     );
   }
 }
