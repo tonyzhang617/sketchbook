@@ -4,6 +4,7 @@ import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import Brush from 'material-ui/svg-icons/image/brush';
+import Undo from 'material-ui/svg-icons/content/undo';
 
 import { Shapes } from './utils.js';
 
@@ -47,11 +48,6 @@ export default class Sidebar extends Component {
           onTouchTap={event => this.props.onShapeSelected(Shapes.line)}
           style={styles.button}
         />
-        <RaisedButton
-          label="Undo"
-          onTouchTap={event => this.props.onUndo()}
-          style={styles.button}
-        />
         <Divider />
         {
           colors.map(color => {
@@ -67,6 +63,15 @@ export default class Sidebar extends Component {
             );
           })
         }
+        <Divider />
+        <IconButton
+          onTouchTap={event => this.props.onUndo() }
+          tooltip="Undo"
+          iconStyle={{
+            color: 'darkgray'
+          }}>
+          <Undo />
+        </IconButton>
       </Paper>
     );
   }
