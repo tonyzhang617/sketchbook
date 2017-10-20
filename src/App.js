@@ -26,6 +26,7 @@ class App extends Component {
     this.onResize = this.onResize.bind(this);
     this.onShapeSelected = this.onShapeSelected.bind(this);
     this.onColorSelected = this.onColorSelected.bind(this);
+    this.onUndo = this.onUndo.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
@@ -58,6 +59,15 @@ class App extends Component {
     if (this.state.color !== color) {
       this.setState({
         color: color
+      });
+    }
+  }
+
+  onUndo() {
+    if (this.state.shapes.length > 0) {
+      this.setState(prevState => {
+        prevState.shapes.pop();
+        return prevState.shapes;
       });
     }
   }
@@ -179,6 +189,7 @@ class App extends Component {
           width={sidebarWidth}
           onShapeSelected={this.onShapeSelected}
           onColorSelected={this.onColorSelected}
+          onUndo={this.onUndo}
         />
 
         <div style={{

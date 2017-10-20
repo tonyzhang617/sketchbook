@@ -47,6 +47,11 @@ export default class Sidebar extends Component {
           onTouchTap={event => this.props.onShapeSelected(Shapes.line)}
           style={styles.button}
         />
+        <RaisedButton
+          label="Undo"
+          onTouchTap={event => this.props.onUndo()}
+          style={styles.button}
+        />
         <Divider />
         {
           colors.map(color => {
