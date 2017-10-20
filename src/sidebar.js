@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
+import Divider from 'material-ui/Divider';
+import IconButton from 'material-ui/IconButton';
+import Brush from 'material-ui/svg-icons/image/brush';
 
 import { Shapes } from './utils.js';
 
@@ -21,6 +24,7 @@ const styles = {
 
 export default class Sidebar extends Component {
   render() {
+    const colors = ['black', 'green', 'red', 'yellow', 'blue', 'purple', 'pink', 'orange', 'lightcyan', 'violet', 'teal', 'magenta', 'lightseagreen', 'indianred'];
     return (
       <Paper
         zDepth={3}
@@ -43,6 +47,21 @@ export default class Sidebar extends Component {
           onTouchTap={event => this.props.onShapeSelected(Shapes.line)}
           style={styles.button}
         />
+        <Divider />
+        {
+          colors.map(color => {
+            return (
+              <IconButton
+                onTouchTap={event => this.props.onColorSelected(color) }
+                tooltip={color}
+                iconStyle={{
+                  color: color
+                }}>
+                <Brush />
+              </IconButton>
+            );
+          })
+        }
       </Paper>
     );
   }

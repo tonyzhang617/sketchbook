@@ -25,6 +25,7 @@ class App extends Component {
     };
     this.onResize = this.onResize.bind(this);
     this.onShapeSelected = this.onShapeSelected.bind(this);
+    this.onColorSelected = this.onColorSelected.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
@@ -49,6 +50,14 @@ class App extends Component {
     if (shape !== this.state.shapeType) {
       this.setState({
         shapeType: shape,
+      });
+    }
+  }
+
+  onColorSelected(color) {
+    if (this.state.color !== color) {
+      this.setState({
+        color: color
       });
     }
   }
@@ -169,6 +178,7 @@ class App extends Component {
         <Sidebar
           width={sidebarWidth}
           onShapeSelected={this.onShapeSelected}
+          onColorSelected={this.onColorSelected}
         />
 
         <div style={{
