@@ -1,8 +1,10 @@
-import shapes from './shapes.js';
+import shapes from './shapes';
+import windowSize from './windowSize';
 import { combineReducers } from 'redux';
 
 const reducer = combineReducers({
-  shapes
+  shapes,
+  windowSize
 });
 
 export default reducer;
