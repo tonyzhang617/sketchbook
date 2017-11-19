@@ -6,9 +6,29 @@ class Canvas extends Component {
   componentDidMount() {
     let stage = this.stage.getStage();
 
-    stage.on('contentMousedown', this.props.onMouseDown);
-    stage.on('contentMousemove', this.props.onMouseMove);
-    stage.on('contentMouseup', this.props.onMouseUp);
+    // stage.on('contentMousedown', e => {
+    //   this.props.onMouseDown(e);
+    //   stage.on('contentMousemove', this.props.onMouseMove);
+    // });
+    // stage.on('contentMousemove', this.props.onMouseMove);
+    // stage.on('contentMouseup', e => {
+    //   this.props.onMouseUp(e);
+    //   stage.off('contentMousemove');
+    // });
+
+    stage.on('contentClick', e => {
+      if (!this.props.isDrawing) {
+        // Register listener and start shape
+        this.props.onUpdateShape(e);
+        stage.on('contentMousemove', e => {
+          this.props.onUpdateShape(e);
+        });
+      } else {
+        // Unregister listener and end shape
+        this.props.onEndShape(e);
+        stage.off('contentMousemove');
+      }
+    });
   }
 
   render() {

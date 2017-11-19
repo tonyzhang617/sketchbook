@@ -1,4 +1,4 @@
-import { UPDATE_SHAPE, FINISH_SHAPE } from '../actions';
+import { UPDATE_SHAPE, END_SHAPE } from '../actions';
 
 const shapes = (state = { drawn: [], new: null }, action) => {
   switch (action.type) {
@@ -17,14 +17,15 @@ const shapes = (state = { drawn: [], new: null }, action) => {
           type: action.shapeType,
           color: action.color,
           points: [
-            ...state.new.points,
+            state.new.points[0],
+            state.new.points[1],
             action.newX,
             action.newY
           ],
           angle: action.angle
         }
       };
-    case FINISH_SHAPE:
+    case END_SHAPE:
       let newState = {
         drawn: state.drawn.concat([ state.new ]),
         new: null
