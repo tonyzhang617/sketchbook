@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { shapeToHTML } from '../helpers';
 import PropTypes from 'prop-types';
 import { Layer, Stage } from 'react-konva';
 
@@ -56,19 +57,18 @@ class Canvas extends Component {
           ref={( stage ) => { this.stage = stage; }}
           width={ this.props.width }
           height={ this.props.height }>
-          <Layer>
-          </Layer>
-          <Layer>
-          </Layer>
+          <Layer>{
+            this.props.shapes.map(shape => {
+              return shapeToHTML(shape);
+            })
+          }</Layer>
+          <Layer>{
+            shapeToHTML(this.props.newShape)
+          }</Layer>
         </Stage>
       </div>
     );
   }
-}
-
-Canvas.propTypes = {
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired
 }
 
 export default Canvas;

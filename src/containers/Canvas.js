@@ -6,6 +6,8 @@ import Canvas from '../components/Canvas';
 const mapStateToProps = (state, ownProps) => ({
   width: state.windowSize.width - 10,
   height: state.windowSize.height - 10,
+  shapes: state.shapes.drawn,
+  newShape: state.shapes.new,
   newShapeParams: state.shapeParams,
   isDrawing: state.shapes.new !== null
 });

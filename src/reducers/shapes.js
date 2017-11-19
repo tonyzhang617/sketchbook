@@ -5,24 +5,20 @@ const shapes = (state = { drawn: [], new: null }, action) => {
     case UPDATE_SHAPE:
       return {
         drawn: state.drawn,
-        new: state.new === null ? {
+        new: {
           type: action.shapeType,
           color: action.color,
-          points: [
+          points: (state.new === null) ? [
             action.newX,
             action.newY
-          ],
-          angle: action.angle
-        } : {
-          type: action.shapeType,
-          color: action.color,
-          points: [
+          ] : [
             state.new.points[0],
             state.new.points[1],
             action.newX,
             action.newY
           ],
-          angle: action.angle
+          angle: action.angle,
+          key: 0
         }
       };
     case END_SHAPE:
@@ -36,7 +32,8 @@ const shapes = (state = { drawn: [], new: null }, action) => {
             action.newX,
             action.newY
           ],
-          angle: action.angle
+          angle: action.angle,
+          key: state.drawn.length + 1
         }]),
         new: null
       };
