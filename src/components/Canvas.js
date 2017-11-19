@@ -19,13 +19,31 @@ class Canvas extends Component {
     stage.on('contentClick', e => {
       if (!this.props.isDrawing) {
         // Register listener and start shape
-        this.props.onUpdateShape(e);
-        stage.on('contentMousemove', e => {
-          this.props.onUpdateShape(e);
+        this.props.onUpdateShape(
+          this.props.newShapeParams.type,
+          this.props.newShapeParams.color,
+          e.evt.offsetX,
+          e.evt.offsetY,
+          0
+        );
+        stage.on('contentMousemove', moveEvent => {
+          this.props.onUpdateShape(
+            this.props.newShapeParams.type,
+            this.props.newShapeParams.color,
+            moveEvent.evt.offsetX,
+            moveEvent.evt.offsetY,
+            0
+          );
         });
       } else {
         // Unregister listener and end shape
-        this.props.onEndShape(e);
+        this.props.onEndShape(
+          this.props.newShapeParams.type,
+          this.props.newShapeParams.color,
+          e.evt.offsetX,
+          e.evt.offsetY,
+          0
+        );
         stage.off('contentMousemove');
       }
     });
@@ -50,9 +68,7 @@ class Canvas extends Component {
 
 Canvas.propTypes = {
   width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
-  shapes: PropTypes.arrayOf(PropTypes.object),
-  newShape: PropTypes.object
+  height: PropTypes.number.isRequired
 }
 
 export default Canvas;

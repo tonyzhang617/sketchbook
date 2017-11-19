@@ -27,7 +27,17 @@ const shapes = (state = { drawn: [], new: null }, action) => {
       };
     case END_SHAPE:
       let newState = {
-        drawn: state.drawn.concat([ state.new ]),
+        drawn: state.drawn.concat([{
+          type: action.shapeType,
+          color: action.color,
+          points: [
+            state.new.points[0],
+            state.new.points[1],
+            action.newX,
+            action.newY
+          ],
+          angle: action.angle
+        }]),
         new: null
       };
       console.log(newState);
