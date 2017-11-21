@@ -1,5 +1,8 @@
 export const UPDATE_WINDOW_SIZE = 'UPDATE_WINDOW_SIZE';
-// export const BEGIN_SHAPE = 'BEGIN_SHAPE';
+
+export const CHANGE_PARAM = 'CHANGE_PARAM';
+export const CHANGE_SHAPE_PARAM = 'CHANGE_SHAPE_PARAM';
+
 export const UPDATE_SHAPE = 'UPDATE_SHAPE';
 export const END_SHAPE = 'END_SHAPE';
 
@@ -9,14 +12,18 @@ export const updateWindowSize = (_width, _height) => ({
   height: _height
 });
 
-// export const beginShape = (_type, _color, _x, _y, _angle) => ({
-//   type: BEGIN_SHAPE,
-//   shapeType: _type,
-//   color: _color,
-//   x: _x,
-//   y: _y,
-//   angle: _angle
-// });
+export const changeParam = (key, value) => ({
+  type: CHANGE_PARAM,
+  key: key,
+  value: value
+});
+
+export const changeShapeParam = (shapeType, key, value) => ({
+  type: CHANGE_SHAPE_PARAM,
+  shapeType: shapeType,
+  key: key,
+  value: value
+});
 
 export const updateShape = (_type, _color, _newX, _newY, _angle) => ({
   type: UPDATE_SHAPE,

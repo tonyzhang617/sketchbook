@@ -1,3 +1,3 @@
-export const SQUARE = 'SQUARE';
+export const RECTANGLE = 'RECTANGLE';
 export const LINE = 'LINE';
 export const ELLIPSE = 'ELLIPSE';

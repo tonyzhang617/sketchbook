@@ -1,12 +1,12 @@
 import shapes from './shapes';
 import windowSize from './windowSize';
-import shapeParams from './shapeParams';
+import params from './params';
 import { combineReducers } from 'redux';
 
 const reducer = combineReducers({
   shapes,
   windowSize,
-  shapeParams
+  params
 });
 
 export default reducer;

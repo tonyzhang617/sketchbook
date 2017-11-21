@@ -1,5 +1,5 @@
 import React from 'react';
-import { SQUARE, LINE, ELLIPSE } from '../enums';
+import { RECTANGLE, LINE, ELLIPSE } from '../enums';
 import { Rect, Ellipse, Line } from 'react-konva';
 
 export const shapeToHTML = (shapeObj) => {
@@ -7,7 +7,7 @@ export const shapeToHTML = (shapeObj) => {
     return null;
   }
   switch (shapeObj.type) {
-    case SQUARE:
+    case RECTANGLE:
       return (
         <Rect
           key={ shapeObj.key }
