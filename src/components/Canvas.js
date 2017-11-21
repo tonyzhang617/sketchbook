@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { shapeToHTML } from '../helpers';
 import PropTypes from 'prop-types';
 import { Layer, Stage } from 'react-konva';
@@ -6,6 +7,7 @@ import { Layer, Stage } from 'react-konva';
 class Canvas extends Component {
   componentDidMount() {
     let stage = this.stage.getStage();
+    const { x, y }= ReactDOM.findDOMNode(this).getBoundingClientRect();
 
     // stage.on('contentMousedown', e => {
     //   this.props.onMouseDown(e);
@@ -17,12 +19,12 @@ class Canvas extends Component {
     //   stage.off('contentMousemove');
     // });
 
-    const onMouseMove = ({ clientX, clientY }) => {
+    const onMouseMove = ({ pageX, pageY }) => {
       this.props.onUpdateShape(
         this.props.newShapeParams.type,
         this.props.newShapeParams.color,
-        clientX,
-        clientY,
+        pageX - x,
+        pageY - y,
         0
       );
     };
