@@ -3,7 +3,7 @@ import { SQUARE, LINE, ELLIPSE } from '../enums';
 import { Rect, Ellipse, Line } from 'react-konva';
 
 export const shapeToHTML = (shapeObj) => {
-  if (shapeObj === undefined || shapeObj === null) {
+  if (shapeObj === null) {
     return null;
   }
   switch (shapeObj.type) {

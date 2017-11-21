@@ -17,6 +17,16 @@ class Canvas extends Component {
     //   stage.off('contentMousemove');
     // });
 
+    const onMouseMove = ({ clientX, clientY }) => {
+      this.props.onUpdateShape(
+        this.props.newShapeParams.type,
+        this.props.newShapeParams.color,
+        clientX,
+        clientY,
+        0
+      );
+    };
+
     stage.on('contentClick', e => {
       if (!this.props.isDrawing) {
         // Register listener and start shape
@@ -27,15 +37,7 @@ class Canvas extends Component {
           e.evt.offsetY,
           0
         );
-        stage.on('contentMousemove', moveEvent => {
-          this.props.onUpdateShape(
-            this.props.newShapeParams.type,
-            this.props.newShapeParams.color,
-            moveEvent.evt.offsetX,
-            moveEvent.evt.offsetY,
-            0
-          );
-        });
+        document.addEventListener('mousemove', onMouseMove);
       } else {
         // Unregister listener and end shape
         this.props.onEndShape(
@@ -45,7 +47,7 @@ class Canvas extends Component {
           e.evt.offsetY,
           0
         );
-        stage.off('contentMousemove');
+        document.removeEventListener('mousemove', onMouseMove);
       }
     });
   }
