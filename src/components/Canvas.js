@@ -16,7 +16,8 @@ class Canvas extends Component {
     const onStart = ({ evt }) => {
       this.props.onUpdateShape(evt.pageX - x, evt.pageY - y, {
         type: this.props.newShapeParams.type,
-        color: this.props.newShapeParams.color
+        color: this.props.newShapeParams.color,
+        curved: (this.props.newShapeParams.options.curved ? true : false)
       });
       registerMouseMoveListener();
     };
@@ -25,7 +26,10 @@ class Canvas extends Component {
       this.props.onUpdateShape(
         evt.pageX - x,
         evt.pageY - y,
-        { append: (this.props.shouldLeftClickEndDrawing ? false : true)}
+        {
+          append: (this.props.shouldLeftClickEndDrawing ? false : true),
+          curved: (this.props.newShapeParams.options.curved ? true : false)
+        }
       );
     };
 
@@ -44,7 +48,10 @@ class Canvas extends Component {
       this.props.onEndShape(
         evt.pageX - x,
         evt.pageY - y,
-        { append: (this.props.shouldLeftClickEndDrawing ? false : true)}
+        {
+          append: (this.props.shouldLeftClickEndDrawing ? false : true),
+          curved: (this.props.newShapeParams.options.curved ? true : false)
+        }
       );
       unregisterMouseMoveListener();
     };

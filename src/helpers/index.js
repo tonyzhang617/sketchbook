@@ -40,6 +40,7 @@ export const shapeToHTML = (shapeObj) => {
           points={ shapeObj.points }
           stroke={ shapeObj.color }
           strokeWidth={3}
+          tension={ shapeObj.curved ? 0.5 : 0 }
         />
       );
     default:
