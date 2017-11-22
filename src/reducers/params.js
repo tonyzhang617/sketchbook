@@ -1,5 +1,5 @@
 import { RECTANGLE, LINE, ELLIPSE } from '../enums';
-import { CHANGE_PARAM, CHANGE_SHAPE_PARAM } from '../actions';
+import { SET_PARAM, SET_SHAPE_PARAM } from '../actions';
 
 const params = (state = {
   shapeSelected: LINE,
@@ -19,14 +19,14 @@ const params = (state = {
   colorSelected: 'blue'
 }, action) => {
   switch (action.type) {
-    case CHANGE_PARAM:
-      const newState = Object.assign({}, state, { [action.key]: action.value });
+    case SET_PARAM:
+      let newState = Object.assign({}, state, { [action.key]: action.value });
       return newState;
-    case CHANGE_SHAPE_PARAM:
+    case SET_SHAPE_PARAM:
       const newShape = Object.assign({}, state.shapes[action.shapeType], { [action.key]: action.value });
       const newShapes = Object.assign({}, state.shapes, { [action.shapeType]: newShape });
-      const newState = Object.assign({}, state, { shapes: newShapes });
-      return newState;
+      let _newState = Object.assign({}, state, { shapes: newShapes });
+      return _newState;
     default:
       return state;
   }

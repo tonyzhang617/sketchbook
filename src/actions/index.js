@@ -1,7 +1,7 @@
 export const UPDATE_WINDOW_SIZE = 'UPDATE_WINDOW_SIZE';
 
-export const CHANGE_PARAM = 'CHANGE_PARAM';
-export const CHANGE_SHAPE_PARAM = 'CHANGE_SHAPE_PARAM';
+export const SET_PARAM = 'SET_PARAM';
+export const SET_SHAPE_PARAM = 'SET_SHAPE_PARAM';
 
 export const UPDATE_SHAPE = 'UPDATE_SHAPE';
 export const END_SHAPE = 'END_SHAPE';
@@ -12,14 +12,14 @@ export const updateWindowSize = (_width, _height) => ({
   height: _height
 });
 
-export const changeParam = (key, value) => ({
-  type: CHANGE_PARAM,
+export const setParam = (key, value) => ({
+  type: SET_PARAM,
   key: key,
   value: value
 });
 
-export const changeShapeParam = (shapeType, key, value) => ({
-  type: CHANGE_SHAPE_PARAM,
+export const setShapeParam = (shapeType, key, value) => ({
+  type: SET_SHAPE_PARAM,
   shapeType: shapeType,
   key: key,
   value: value

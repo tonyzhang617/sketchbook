@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CanvasContainer from '../containers/Canvas';
+import PaletteSidebarContainer from '../containers/PaletteSidebar';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
@@ -28,7 +29,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <CanvasContainer />
+        <PaletteSidebarContainer content={ <CanvasContainer /> } />
       </div>
     );
   }
