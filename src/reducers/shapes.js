@@ -9,7 +9,9 @@ const shapes = (state = { drawn: [], new: null }, action) => {
           drawn: state.drawn,
           new: {
             key: 0,
-            ...action.extras,
+            type: action.extras.type,
+            color: action.extras.color,
+            curved: action.extras.curved ? true : false,
             points: [action.newX, action.newY, action.newX, action.newY]
           }
         });

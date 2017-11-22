@@ -27,8 +27,7 @@ class Canvas extends Component {
         evt.pageX - x,
         evt.pageY - y,
         {
-          append: (this.props.shouldLeftClickEndDrawing ? false : true),
-          curved: (this.props.newShapeParams.options.curved ? true : false)
+          append: (this.props.shouldLeftClickEndDrawing ? false : true)
         }
       );
     };
@@ -49,8 +48,7 @@ class Canvas extends Component {
         evt.pageX - x,
         evt.pageY - y,
         {
-          append: (this.props.shouldLeftClickEndDrawing ? false : true),
-          curved: (this.props.newShapeParams.options.curved ? true : false)
+          append: (this.props.shouldLeftClickEndDrawing ? false : true)
         }
       );
       unregisterMouseMoveListener();
