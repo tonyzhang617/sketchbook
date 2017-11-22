@@ -3,42 +3,79 @@ import { UPDATE_SHAPE, END_SHAPE } from '../actions';
 const shapes = (state = { drawn: [], new: null }, action) => {
   switch (action.type) {
     case UPDATE_SHAPE:
-      return {
-        drawn: state.drawn,
-        new: {
-          type: action.shapeType,
-          color: action.color,
-          points: (state.new === null) ? [
-            action.newX,
-            action.newY
-          ] : [
-            state.new.points[0],
-            state.new.points[1],
-            action.newX,
-            action.newY
-          ],
-          angle: action.angle,
-          key: 0
+      let result = null;
+      if (state.new === null) {
+        result = ({
+          drawn: state.drawn,
+          new: {
+            key: 0,
+            ...action.extras,
+            points: [action.newX, action.newY, action.newX, action.newY]
+          }
+        });
+      } else {
+        let newShape = state.new;
+        if (action.extras != null) {
+          newShape = Object.assign({}, state.new, action.extras);
         }
-      };
+
+        let newPoints = [...state.new.points];
+        newPoints.pop();
+        newPoints.pop();
+        result = ({
+          drawn: state.drawn,
+          new: {
+            ...state.new,
+            points: ((action.extras != null && action.extras.append) ? [
+              ...newPoints,
+              action.newX,
+              action.newY,
+              action.newX,
+              action.newY
+            ] : [
+              ...newPoints,
+              action.newX,
+              action.newY
+            ])
+          }
+        });
+      }
+      return result;
     case END_SHAPE:
-      let newState = {
+      if (state.new === null) {
+        return state;
+      }
+
+      let _newShape = state.new;
+      if (action.extras) {
+        _newShape = Object.assign({}, state.new, action.extras);
+      }
+
+      let newPoints = [...state.new.points];
+      newPoints.pop();
+      newPoints.pop();
+
+      const _result = {
         drawn: state.drawn.concat([{
-          type: action.shapeType,
-          color: action.color,
-          points: [
-            state.new.points[0],
-            state.new.points[1],
-            action.newX,
-            action.newY
-          ],
-          angle: action.angle,
-          key: state.drawn.length + 1
+          ..._newShape,
+          key: state.drawn.length + 1,
+          points: (
+            (action.extras != null && action.extras.append) ? [
+              ...newPoints,
+              action.newX,
+              action.newY,
+              action.newX,
+              action.newY
+            ] : [
+              ...newPoints,
+              action.newX,
+              action.newY
+            ]
+          )
         }]),
         new: null
       };
-      console.log(newState);
-      return newState;
+      return _result;
     default:
       return state;
   }

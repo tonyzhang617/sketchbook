@@ -13,30 +13,18 @@ const mapStateToProps = (state, ownProps) => ({
     color: state.params.colorSelected,
     options: state.params.shapes[state.params.shapeSelected]
   },
-  isDrawing: state.shapes.new !== null
+  isDrawing: state.shapes.new !== null,
+  shouldLeftClickEndDrawing: !state.params.shapes[LINE].continuous
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onUpdateShape: (shapeType, color, x, y, angle) => {
-    dispatch(updateShape(shapeType, color, x, y, angle));
+  onUpdateShape: (x, y, extras = null) => {
+    dispatch(updateShape(x, y, extras));
   },
 
-  onEndShape: (shapeType, color, x, y, angle) => {
-    dispatch(endShape(shapeType, color, x, y, angle));
+  onEndShape: (x, y, extras = null) => {
+    dispatch(endShape(x, y, extras));
   }
-
-  // , onMouseDown: ({ currentTarget, evt }) => {
-  //   console.log(currentTarget);
-  //   dispatch(updateShape(RECTANGLE, 'blue', evt.offsetX, evt.offsetY, 0));
-  // },
-  //
-  // onMouseMove: e => {
-  //   console.log('mouse moved');
-  // },
-  //
-  // onMouseUp: e => {
-  //   dispatch(endShape());
-  // }
 });
 
 const CanvasContainer = connect(

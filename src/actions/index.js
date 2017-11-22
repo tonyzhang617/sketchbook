@@ -25,20 +25,34 @@ export const setShapeParam = (shapeType, key, value) => ({
   value: value
 });
 
-export const updateShape = (_type, _color, _newX, _newY, _angle) => ({
+export const updateShape = (x, y, extras) => ({
   type: UPDATE_SHAPE,
-  shapeType: _type,
-  color: _color,
-  newX: _newX,
-  newY: _newY,
-  angle: _angle
+  newX: x,
+  newY: y,
+  extras: extras
 });
 
-export const endShape = (_type, _color, _newX, _newY, _angle) => ({
+export const endShape = (x, y, extras) => ({
   type: END_SHAPE,
-  shapeType: _type,
-  color: _color,
-  newX: _newX,
-  newY: _newY,
-  angle: _angle
+  newX: x,
+  newY: y,
+  extras: extras
 });
+
+// export const updateShape = (_type, _color, _newX, _newY, _angle) => ({
+//   type: UPDATE_SHAPE,
+//   shapeType: _type,
+//   color: _color,
+//   newX: _newX,
+//   newY: _newY,
+//   angle: _angle
+// });
+//
+// export const endShape = (_type, _color, _newX, _newY, _angle) => ({
+//   type: END_SHAPE,
+//   shapeType: _type,
+//   color: _color,
+//   newX: _newX,
+//   newY: _newY,
+//   angle: _angle
+// });

@@ -9,49 +9,66 @@ class Canvas extends Component {
     let stage = this.stage.getStage();
     const { x, y }= ReactDOM.findDOMNode(this).getBoundingClientRect();
 
-    // stage.on('contentMousedown', e => {
-    //   this.props.onMouseDown(e);
-    //   stage.on('contentMousemove', this.props.onMouseMove);
-    // });
-    // stage.on('contentMousemove', this.props.onMouseMove);
-    // stage.on('contentMouseup', e => {
-    //   this.props.onMouseUp(e);
-    //   stage.off('contentMousemove');
-    // });
+    const registerMouseMoveListener = () => {
+      document.addEventListener('mousemove', onMouseMove);
+    };
 
-    const onMouseMove = ({ pageX, pageY }) => {
+    const onStart = ({ evt }) => {
+      this.props.onUpdateShape(evt.pageX - x, evt.pageY - y, {
+        type: this.props.newShapeParams.type,
+        color: this.props.newShapeParams.color
+      });
+      registerMouseMoveListener();
+    };
+
+    const onUpdate = ({ evt }) => {
       this.props.onUpdateShape(
-        this.props.newShapeParams.type,
-        this.props.newShapeParams.color,
-        pageX - x,
-        pageY - y,
-        0
+        evt.pageX - x,
+        evt.pageY - y,
+        { append: (this.props.shouldLeftClickEndDrawing ? false : true)}
       );
     };
 
+    const onMouseMove = ({ pageX, pageY }) => {
+      this.props.onUpdateShape(
+        pageX - x,
+        pageY - y
+      );
+    };
+
+    const unregisterMouseMoveListener = () => {
+      document.removeEventListener('mousemove', onMouseMove);
+    };
+
+    const onFinish = ({ evt }) => {
+      this.props.onEndShape(
+        evt.pageX - x,
+        evt.pageY - y,
+        { append: (this.props.shouldLeftClickEndDrawing ? false : true)}
+      );
+      unregisterMouseMoveListener();
+    };
+
     stage.on('contentClick', e => {
-      if (!this.props.isDrawing) {
-        // Register listener and start shape
-        this.props.onUpdateShape(
-          this.props.newShapeParams.type,
-          this.props.newShapeParams.color,
-          e.evt.offsetX,
-          e.evt.offsetY,
-          0
-        );
-        document.addEventListener('mousemove', onMouseMove);
-      } else {
-        // Unregister listener and end shape
-        this.props.onEndShape(
-          this.props.newShapeParams.type,
-          this.props.newShapeParams.color,
-          e.evt.offsetX,
-          e.evt.offsetY,
-          0
-        );
-        document.removeEventListener('mousemove', onMouseMove);
+      if (e.evt.button === 0) {
+        if (!this.props.isDrawing) {
+          onStart(e);
+        } else if (this.props.shouldLeftClickEndDrawing) {
+          onFinish(e);
+        } else {
+          onUpdate(e);
+        }
+      } else if (e.evt.button === 2) {
+        onFinish(e);
       }
     });
+
+    if (!this.props.shouldLeftClickEndDrawing) {
+      stage.on('contentDblclick', e => {
+        console.log("double click");
+        onFinish(e);
+      });
+    }
   }
 
   render() {

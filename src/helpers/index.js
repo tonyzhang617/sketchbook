@@ -35,9 +35,9 @@ export const shapeToHTML = (shapeObj) => {
       return (
         <Line
           key={ shapeObj.key }
-          x={ shapeObj.points[0] }
-          y={ shapeObj.points[1] }
-          points={[0, 0, shapeObj.points[2] - shapeObj.points[0], shapeObj.points[3] - shapeObj.points[1]]}
+          x={0}
+          y={0}
+          points={ shapeObj.points }
           stroke={ shapeObj.color }
           strokeWidth={3}
         />
