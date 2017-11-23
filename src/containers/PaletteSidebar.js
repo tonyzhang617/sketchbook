@@ -4,6 +4,8 @@ import { setParam, setShapeParam } from '../actions';
 import PaletteSidebar from '../components/PaletteSidebar';
 
 const mapStateToProps = state => ({
+  windowWidth: state.windowSize.width,
+  windowHeight: state.windowSize.height,
   shapeSelected: state.params.shapeSelected,
   colorSelected: state.params.colorSelected,
   lineParams: state.params.shapes[LINE],

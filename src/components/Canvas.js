@@ -7,7 +7,7 @@ import { Layer, Stage } from 'react-konva';
 class Canvas extends Component {
   componentDidMount() {
     let stage = this.stage.getStage();
-    const { x, y }= ReactDOM.findDOMNode(this).getBoundingClientRect();
+    var x, y;
 
     const registerMouseMoveListener = () => {
       document.addEventListener('mousemove', onMouseMove);
@@ -18,6 +18,8 @@ class Canvas extends Component {
     };
 
     const onStart = ({ evt }) => {
+      x = ReactDOM.findDOMNode(this).getBoundingClientRect().x;
+      y = ReactDOM.findDOMNode(this).getBoundingClientRect().y;
       this.props.onBeginShape(
         this.props.newShapeParams.type,
         evt.pageX-x, evt.pageY-y,
@@ -48,6 +50,8 @@ class Canvas extends Component {
     };
 
     const onFinish = ({ evt }) => {
+      x = ReactDOM.findDOMNode(this).getBoundingClientRect().x;
+      y = ReactDOM.findDOMNode(this).getBoundingClientRect().y;
       this.props.onEndShape(
         evt.pageX - x,
         evt.pageY - y,
@@ -84,11 +88,17 @@ class Canvas extends Component {
 
   render() {
     return (
-      <div>
+      <div
+        id='canvas'
+        style={{
+          marginLeft: this.props.marginLeft
+        }}
+      >
         <Stage
           ref={( stage ) => { this.stage = stage; }}
           width={ this.props.width }
-          height={ this.props.height }>
+          height={ this.props.height }
+        >
           <Layer>{
             this.props.shapes.map(shape => {
               return shapeToHTML(shape);

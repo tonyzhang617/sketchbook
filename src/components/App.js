@@ -29,7 +29,8 @@ class App extends Component {
   render() {
     return (
       <div>
-        <PaletteSidebarContainer content={ <CanvasContainer /> } />
+        <PaletteSidebarContainer />
+        <CanvasContainer />
       </div>
     );
   }

@@ -4,8 +4,9 @@ import { beginShape, updateShape, endShape, cancelShape } from '../actions';
 import Canvas from '../components/Canvas';
 
 const mapStateToProps = (state, ownProps) => ({
-  width: state.windowSize.width - 10,
-  height: state.windowSize.height - 10,
+  marginLeft: state.windowSize.width * 0.25,
+  width: state.windowSize.width * 0.75,
+  height: state.windowSize.height,
   shapes: state.shapes.drawn,
   newShape: state.shapes.new,
   newShapeParams: {
