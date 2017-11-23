@@ -1,0 +1,7 @@
+.shape-type {
+  padding-left: 2em !important;
+}
+
+.shape-type * {
+  display: block !important;
+}
