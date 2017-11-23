@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { shapeToHTML } from '../helpers';
-import PropTypes from 'prop-types';
+import { DELETE_SHAPE, REMOVE_LAST_POINT } from '../enums';
 import { Layer, Stage } from 'react-konva';
 
 class Canvas extends Component {
@@ -13,12 +13,17 @@ class Canvas extends Component {
       document.addEventListener('mousemove', onMouseMove);
     };
 
+    const unregisterMouseMoveListener = () => {
+      document.removeEventListener('mousemove', onMouseMove);
+    };
+
     const onStart = ({ evt }) => {
-      this.props.onUpdateShape(evt.pageX - x, evt.pageY - y, {
-        type: this.props.newShapeParams.type,
-        color: this.props.newShapeParams.color,
-        curved: (this.props.newShapeParams.options.curved ? true : false)
-      });
+      this.props.onBeginShape(
+        this.props.newShapeParams.type,
+        evt.pageX-x, evt.pageY-y,
+        this.props.newShapeParams.color,
+        this.props.newShapeParams.options.curved ? { curved: true } : null
+      );
       registerMouseMoveListener();
     };
 
@@ -39,10 +44,6 @@ class Canvas extends Component {
       );
     };
 
-    const unregisterMouseMoveListener = () => {
-      document.removeEventListener('mousemove', onMouseMove);
-    };
-
     const onFinish = ({ evt }) => {
       this.props.onEndShape(
         evt.pageX - x,
@@ -54,26 +55,28 @@ class Canvas extends Component {
       unregisterMouseMoveListener();
     };
 
+    const onCancel = type => {
+      this.props.onCancelShape(type);
+      unregisterMouseMoveListener();
+    };
+
     stage.on('contentClick', e => {
       if (e.evt.button === 0) {
         if (!this.props.isDrawing) {
           onStart(e);
-        } else if (this.props.shouldLeftClickEndDrawing) {
-          onFinish(e);
-        } else {
+        } else if (!this.props.shouldLeftClickEndDrawing) {
           onUpdate(e);
+        } else {
+          onFinish(e);
         }
       } else if (e.evt.button === 2) {
-        onFinish(e);
+        onCancel(REMOVE_LAST_POINT);
       }
     });
 
-    if (!this.props.shouldLeftClickEndDrawing) {
-      stage.on('contentDblclick', e => {
-        console.log("double click");
-        onFinish(e);
-      });
-    }
+    stage.on('contentDblclick', e => {
+      onFinish(e);
+    });
   }
 
   render() {

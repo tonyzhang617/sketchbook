@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { RECTANGLE, ELLIPSE, LINE } from '../enums';
-import { updateShape, endShape } from '../actions';
+import { beginShape, updateShape, endShape, cancelShape } from '../actions';
 import Canvas from '../components/Canvas';
 
 const mapStateToProps = (state, ownProps) => ({
@@ -18,12 +18,20 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  onBeginShape: (type, x, y, color, extras = null) => {
+    dispatch(beginShape(type, x, y, color, extras));
+  },
+
   onUpdateShape: (x, y, extras = null) => {
     dispatch(updateShape(x, y, extras));
   },
 
   onEndShape: (x, y, extras = null) => {
     dispatch(endShape(x, y, extras));
+  },
+
+  onCancelShape: (type, extras = null) => {
+    dispatch(cancelShape(type, extras));
   }
 });
 

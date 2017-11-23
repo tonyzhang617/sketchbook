@@ -1,21 +1,23 @@
-import { UPDATE_SHAPE, END_SHAPE } from '../actions';
+import { BEGIN_SHAPE, UPDATE_SHAPE, END_SHAPE, CANCEL_SHAPE } from '../actions';
+import { DELETE_SHAPE, REMOVE_LAST_POINT } from '../enums';
 
 const shapes = (state = { drawn: [], new: null }, action) => {
   switch (action.type) {
+    case BEGIN_SHAPE:
+      let newState = ({
+        drawn: state.drawn,
+        new: {
+          key: state.drawn.length,
+          ...action.extras,
+          type: action.shapeType,
+          color: action.color,
+          points: [action.x, action.y, action.x, action.y]
+        }
+      });
+      return newState;
     case UPDATE_SHAPE:
-      let result = null;
-      if (state.new === null) {
-        result = ({
-          drawn: state.drawn,
-          new: {
-            key: 0,
-            type: action.extras.type,
-            color: action.extras.color,
-            curved: action.extras.curved ? true : false,
-            points: [action.newX, action.newY, action.newX, action.newY]
-          }
-        });
-      } else {
+      let result = state;
+      if (state.new != null) {
         let newShape = state.new;
         if (action.extras != null) {
           newShape = Object.assign({}, state.new, action.extras);
@@ -60,7 +62,6 @@ const shapes = (state = { drawn: [], new: null }, action) => {
       const _result = {
         drawn: state.drawn.concat([{
           ..._newShape,
-          key: state.drawn.length + 1,
           points: (
             (action.extras != null && action.extras.append) ? [
               ...newPoints,
@@ -78,6 +79,27 @@ const shapes = (state = { drawn: [], new: null }, action) => {
         new: null
       };
       return _result;
+    case CANCEL_SHAPE:
+      if (state.new == null) {
+        return state;
+      }
+      switch (action.cancelType) {
+        case DELETE_SHAPE:
+          return {
+            drawn: state.drawn,
+            new: null
+          };
+        case REMOVE_LAST_POINT:
+          let _newPoints = [...state.new.points];
+          _newPoints.pop();
+          _newPoints.pop();
+          return {
+            drawn: state.drawn.concat([Object.assign({}, state.new, { points: _newPoints })]),
+            new: null
+          };
+        default:
+          return state;
+      }
     default:
       return state;
   }

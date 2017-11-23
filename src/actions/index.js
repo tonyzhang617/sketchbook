@@ -3,8 +3,10 @@ export const UPDATE_WINDOW_SIZE = 'UPDATE_WINDOW_SIZE';
 export const SET_PARAM = 'SET_PARAM';
 export const SET_SHAPE_PARAM = 'SET_SHAPE_PARAM';
 
+export const BEGIN_SHAPE = 'BEGIN_SHAPE';
 export const UPDATE_SHAPE = 'UPDATE_SHAPE';
 export const END_SHAPE = 'END_SHAPE';
+export const CANCEL_SHAPE = 'CANCEL_SHAPE';
 
 export const updateWindowSize = (_width, _height) => ({
   type: UPDATE_WINDOW_SIZE,
@@ -25,34 +27,31 @@ export const setShapeParam = (shapeType, key, value) => ({
   value: value
 });
 
-export const updateShape = (x, y, extras) => ({
+export const beginShape = (shapeType, x, y, color = 'blue', extras = null) => ({
+  type: BEGIN_SHAPE,
+  shapeType: shapeType,
+  x: x,
+  y: y,
+  color: color,
+  extras: extras
+});
+
+export const updateShape = (x, y, extras = null) => ({
   type: UPDATE_SHAPE,
   newX: x,
   newY: y,
   extras: extras
 });
 
-export const endShape = (x, y, extras) => ({
+export const endShape = (x, y, extras = null) => ({
   type: END_SHAPE,
   newX: x,
   newY: y,
   extras: extras
 });
 
-// export const updateShape = (_type, _color, _newX, _newY, _angle) => ({
-//   type: UPDATE_SHAPE,
-//   shapeType: _type,
-//   color: _color,
-//   newX: _newX,
-//   newY: _newY,
-//   angle: _angle
-// });
-//
-// export const endShape = (_type, _color, _newX, _newY, _angle) => ({
-//   type: END_SHAPE,
-//   shapeType: _type,
-//   color: _color,
-//   newX: _newX,
-//   newY: _newY,
-//   angle: _angle
-// });
+export const cancelShape = (type, extras = null) => ({
+  type: CANCEL_SHAPE,
+  cancelType: type,
+  extras: extras
+});
