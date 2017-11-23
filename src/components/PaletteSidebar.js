@@ -61,7 +61,7 @@ export default class PaletteSidebar extends Component {
               <Checkbox
                 label={{ children: 'Square' }}
                 onChange={ e => {
-                  setShapeParam(LINE, 'square', !lineParams['square']);
+                  setShapeParam(RECTANGLE, 'square', !rectParams['square']);
                 }}
               />
             </Accordion.Content>
@@ -80,7 +80,7 @@ export default class PaletteSidebar extends Component {
               <Checkbox
                 label={{ children: 'Circle' }}
                 onChange={ e => {
-                  setShapeParam(LINE, 'circle', !lineParams['circle']);
+                  setShapeParam(ELLIPSE, 'circle', !ellipseParams['circle']);
                 }}
               />
             </Accordion.Content>

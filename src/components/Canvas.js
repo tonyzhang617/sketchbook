@@ -22,7 +22,10 @@ class Canvas extends Component {
         this.props.newShapeParams.type,
         evt.pageX-x, evt.pageY-y,
         this.props.newShapeParams.color,
-        this.props.newShapeParams.options.curved ? { curved: true } : null
+        {
+          curved: this.props.newShapeParams.options.curved ? true : false,
+          regular: this.props.isRegular
+        }
       );
       registerMouseMoveListener();
     };
@@ -32,7 +35,7 @@ class Canvas extends Component {
         evt.pageX - x,
         evt.pageY - y,
         {
-          append: (this.props.shouldLeftClickEndDrawing ? false : true)
+          append: (this.props.isContinuous ? false : true)
         }
       );
     };
@@ -49,7 +52,7 @@ class Canvas extends Component {
         evt.pageX - x,
         evt.pageY - y,
         {
-          append: (this.props.shouldLeftClickEndDrawing ? false : true)
+          append: (this.props.isContinuous ? false : true)
         }
       );
       unregisterMouseMoveListener();
@@ -64,7 +67,7 @@ class Canvas extends Component {
       if (e.evt.button === 0) {
         if (!this.props.isDrawing) {
           onStart(e);
-        } else if (!this.props.shouldLeftClickEndDrawing) {
+        } else if (!this.props.isContinuous) {
           onUpdate(e);
         } else {
           onFinish(e);

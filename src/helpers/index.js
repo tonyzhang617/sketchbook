@@ -8,25 +8,38 @@ export const shapeToHTML = (shapeObj) => {
   }
   switch (shapeObj.type) {
     case RECTANGLE:
+      let width = shapeObj.points[2] - shapeObj.points[0];
+      let height = shapeObj.points[3] - shapeObj.points[1];
+      if (shapeObj.regular) {
+        let longer = (Math.abs(width) > Math.abs(height)) ? Math.abs(width) : Math.abs(height);
+        width = (width > 0) ? longer : -longer;
+        height = (height > 0) ? longer : -longer;
+      }
       return (
         <Rect
           key={ shapeObj.key }
           x={ shapeObj.points[0] }
           y={ shapeObj.points[1] }
-          width={ shapeObj.points[2] - shapeObj.points[0] }
-          height={ shapeObj.points[3] - shapeObj.points[1] }
+          width={ width }
+          height={ height }
           fill={ shapeObj.color }
         />
       );
     case ELLIPSE:
+      let w = shapeObj.points[2] - shapeObj.points[0];
+      let h = shapeObj.points[3] - shapeObj.points[1];
+      if (shapeObj.regular) {
+        w = (Math.abs(w) > Math.abs(h)) ? w : h;
+        h = w;
+      }
       return (
         <Ellipse
           key={ shapeObj.key }
           x={ shapeObj.points[0] }
           y={ shapeObj.points[1] }
           radius={{
-            x: Math.abs( shapeObj.points[2] - shapeObj.points[0]),
-            y: Math.abs( shapeObj.points[3] - shapeObj.points[1])
+            x: Math.abs(w),
+            y: Math.abs(h)
           }}
           fill={ shapeObj.color }
         />
