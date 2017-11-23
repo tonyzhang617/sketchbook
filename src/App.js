@@ -200,6 +200,8 @@ class App extends Component {
             height={this.state.windowDimensions.height}>
             <Layer>
               { this.state.shapes }
+            </Layer>
+            <Layer>
               { this.state.newShape }
             </Layer>
           </Stage>

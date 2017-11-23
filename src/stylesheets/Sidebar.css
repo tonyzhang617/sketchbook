@@ -1,0 +1,23 @@
+#sidebar {
+  position: 'absolute';
+  top: 0;
+  left: 0;
+  float: left;
+  clear: both;
+  width: 25%;
+  height: 100%;
+  padding: 4px;
+}
+
+.shadow {
+  -moz-box-shadow: 0 0 12px 8px #999;
+  -webkit-box-shadow: 0 0 12px 8px #999;
+}
+
+.shape-type {
+  padding-left: 2em !important;
+}
+
+.shape-type * {
+  display: block !important;
+}
