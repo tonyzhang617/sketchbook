@@ -5,6 +5,7 @@ import Canvas from '../components/Canvas';
 
 const mapStateToProps = (state, ownProps) => ({
   marginLeft: state.windowSize.width * 0.25,
+  marginTop: 0,
   width: state.windowSize.width * 0.75,
   height: state.windowSize.height,
   shapes: state.shapes.drawn,
