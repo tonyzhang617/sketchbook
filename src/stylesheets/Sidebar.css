@@ -12,8 +12,8 @@
 .btn-color {
   transition: transform 250ms !important;
   margin: 4px !important;
-  -moz-box-shadow: 0 0 2px 2px #BBB !important;
-  -webkit-box-shadow: 0 0 2px 2px #BBB !important;
+  -moz-box-shadow: 0 0 2px 2px #CCC !important;
+  -webkit-box-shadow: 0 0 2px 2px #CCC !important;
 }
 
 .btn-color:hover {
@@ -21,8 +21,8 @@
 }
 
 .shadow {
-  -moz-box-shadow: 0 0 12px 8px #999;
-  -webkit-box-shadow: 0 0 12px 8px #999;
+  -moz-box-shadow: 0 0 12px 8px #CCC;
+  -webkit-box-shadow: 0 0 12px 8px #CCC;
 }
 
 .shape-type {
