@@ -81,9 +81,9 @@ class Canvas extends Component {
       }
     });
 
-    stage.on('contentDblclick', e => {
-      onFinish(e);
-    });
+    // stage.on('contentDblclick', e => {
+    //   onFinish(e);
+    // });
   }
 
   render() {
