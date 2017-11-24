@@ -93,8 +93,12 @@ const shapes = (state = { drawn: [], new: null }, action) => {
           let _newPoints = [...state.new.points];
           _newPoints.pop();
           _newPoints.pop();
+          let newDrawn = (
+            _newPoints.length <= 2 ? state.drawn :
+            state.drawn.concat([Object.assign({}, state.new, { points: _newPoints })])
+          );
           return {
-            drawn: state.drawn.concat([Object.assign({}, state.new, { points: _newPoints })]),
+            drawn: newDrawn,
             new: null
           };
         default:
