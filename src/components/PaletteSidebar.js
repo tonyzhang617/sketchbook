@@ -46,11 +46,17 @@ export default class PaletteSidebar extends Component {
             <Checkbox
               label={{ children: 'Continuous' }}
               onChange={ e => {
-                setShapeParam(LINE, 'continuous', !lineParams['continuous']);
+                if (lineParams['continuous']) {
+                  setShapeParam(LINE, 'continuous', false);
+                  setShapeParam(LINE, 'curved', false);
+                } else {
+                  setShapeParam(LINE, 'continuous', true);
+                }
               }}
             />
             <Checkbox
               label={{ children: 'Curved' }}
+              disabled={ this.props.lineParams['continuous'] ? false : true }
               onChange={ e => {
                 setShapeParam(LINE, 'curved', !lineParams['curved']);
               }}
