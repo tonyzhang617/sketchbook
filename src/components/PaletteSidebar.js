@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Segment, Sidebar, Form, Accordion, Icon, Checkbox } from 'semantic-ui-react';
+import { Segment, Sidebar, Table, Accordion, Button, Icon, Checkbox } from 'semantic-ui-react';
 import { LINE, RECTANGLE, ELLIPSE } from '../enums';
+import colors from '../enums/colors';
 import '../stylesheets/Sidebar.css';
 
 export default class PaletteSidebar extends Component {
@@ -100,6 +101,29 @@ export default class PaletteSidebar extends Component {
             />
           </Accordion.Content>
         </Accordion>
+
+        <Segment>
+          {
+            colors.map(color => {
+              return (
+                <Button
+                  key={ color.name }
+                  className='btn-color'
+                  icon='paint brush'
+                  id='color-selected'
+                  style={{
+                    color: this.props.colorSelected===color.name ? color.inverted : color.name,
+                    backgroundColor: color.name
+                  }}
+                  onTouchTap={() => {
+                    this.props.setParam('colorSelected', color.name);
+                  }}
+                  circular
+                />
+              );
+            })
+          }
+        </Segment>
       </div>
     );
 

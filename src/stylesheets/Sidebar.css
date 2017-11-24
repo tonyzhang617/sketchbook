@@ -6,7 +6,18 @@
   clear: both;
   width: 25%;
   height: 100%;
-  padding: 4px;
+  padding: 8px;
+}
+
+.btn-color {
+  transition: transform 250ms !important;
+  margin: 4px !important;
+  -moz-box-shadow: 0 0 2px 2px #BBB !important;
+  -webkit-box-shadow: 0 0 2px 2px #BBB !important;
+}
+
+.btn-color:hover {
+  transform: scale(1.2);
 }
 
 .shadow {
