@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { LINE, RECTANGLE, ELLIPSE } from '../enums';
-import { setParam, setShapeParam } from '../actions';
+import { PREPARE_DOWNLOAD, READY_DOWNLOAD, requestDownload, prepareDownload, finishDownload, setParam, setShapeParam } from '../actions';
 import PaletteSidebar from '../components/PaletteSidebar';
 
 const mapStateToProps = state => ({
@@ -10,7 +10,11 @@ const mapStateToProps = state => ({
   colorSelected: state.params.colorSelected,
   lineParams: state.params.shapes[LINE],
   rectParams: state.params.shapes[RECTANGLE],
-  ellipseParams: state.params.shapes[ELLIPSE]
+  ellipseParams: state.params.shapes[ELLIPSE],
+
+  isPreparingDownload: state.download.type === PREPARE_DOWNLOAD,
+  isDownloadReady: state.download.type === READY_DOWNLOAD,
+  downloadData: state.download.dataUrl
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -20,6 +24,14 @@ const mapDispatchToProps = dispatch => ({
 
   setShapeParam: (shapeType, key, value) => {
     dispatch(setShapeParam(shapeType, key, value));
+  },
+
+  requestDownload: () => {
+    dispatch(requestDownload());
+  },
+
+  finishDownload: () => {
+    dispatch(finishDownload());
   }
 });
 

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { RECTANGLE, ELLIPSE, LINE } from '../enums';
-import { beginShape, updateShape, endShape, cancelShape } from '../actions';
+import { REQUEST_DOWNLOAD, prepareDownload, readyDownload, beginShape, updateShape, endShape, cancelShape } from '../actions';
 import Canvas from '../components/Canvas';
 
 const mapStateToProps = (state, ownProps) => ({
@@ -20,7 +20,8 @@ const mapStateToProps = (state, ownProps) => ({
   isRegular: (
     (state.params.shapeSelected === RECTANGLE && state.params.shapes[RECTANGLE].square) ||
     (state.params.shapeSelected === ELLIPSE && state.params.shapes[ELLIPSE].circle)
-  )
+  ),
+  shouldPrepareDownload: state.download.type === REQUEST_DOWNLOAD
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -38,6 +39,14 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
   onCancelShape: (type, extras = null) => {
     dispatch(cancelShape(type, extras));
+  },
+
+  onPreparingDownload: () => {
+    dispatch(prepareDownload());
+  },
+
+  onDownloadReady: (dataUrl) => {
+    dispatch(readyDownload(dataUrl));
   }
 });
 

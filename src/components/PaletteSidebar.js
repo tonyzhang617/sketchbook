@@ -5,6 +5,13 @@ import colors from '../enums/colors';
 import '../stylesheets/Sidebar.css';
 
 export default class PaletteSidebar extends Component {
+  componentDidUpdate() {
+    if (this.props.isDownloadReady) {
+      this.dlLink.click();
+      this.props.finishDownload();
+    }
+  }
+
   render() {
     const { shapeSelected, colorSelected, lineParams, rectParams, ellipseParams } = this.props;
     const { setParam, setShapeParam } = this.props;
@@ -129,6 +136,23 @@ export default class PaletteSidebar extends Component {
               );
             })
           }
+        </Segment>
+
+        <Segment>
+          <Button
+            content='Download'
+            icon='save'
+            labelPosition='left'
+            loading={ this.props.isPreparingDownload ? true : false }
+            onTouchTap={e => {
+              this.props.requestDownload();
+            }}
+          />
+          <a
+            href={ this.props.isDownloadReady ? this.props.downloadData : null }
+            ref={ dlLink => this.dlLink = dlLink }
+            download='sketch.png'
+          />
         </Segment>
       </div>
     );

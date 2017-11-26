@@ -81,6 +81,7 @@ class Canvas extends Component {
     this.onFinish = this.onFinish.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
+    this.prepareDownload = this.prepareDownload.bind(this);
   }
 
   componentDidMount() {
@@ -109,6 +110,25 @@ class Canvas extends Component {
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.onKeyPress, false);
+  }
+
+  prepareDownload() {
+    let stage = this.stage.getStage();
+    return new Promise(function(resolve, reject) {
+      setTimeout(() => {
+        let dataUrl = stage.toDataURL();
+        resolve(dataUrl);
+      }, 500);
+    });
+  }
+
+  componentDidUpdate() {
+    if (this.props.shouldPrepareDownload) {
+      this.prepareDownload().then(dataUrl => {
+        this.props.onDownloadReady(dataUrl);
+      });
+      this.props.onPreparingDownload();
+    }
   }
 
   render() {
