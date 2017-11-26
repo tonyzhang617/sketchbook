@@ -31,7 +31,7 @@ class Canvas extends Component {
       evt.pageX - this.props.marginLeft,
       evt.pageY - this.props.marginTop,
       {
-        append: (this.props.isContinuous ? false : true)
+        append: (this.props.isContinuous ? true : false)
       }
     );
   }
@@ -48,7 +48,7 @@ class Canvas extends Component {
       evt.pageX - this.props.marginLeft,
       evt.pageY - this.props.marginTop,
       {
-        append: (this.props.isContinuous ? false : true)
+        append: (this.props.isContinuous ? true : false)
       }
     );
     this.unregisterMouseMoveListener();
@@ -92,7 +92,7 @@ class Canvas extends Component {
       if (e.evt.button === 0) {
         if (!this.props.isDrawing) {
           this.onStart(e);
-        } else if (!this.props.isContinuous) {
+        } else if (this.props.isContinuous) {
           this.onUpdate(e);
         } else {
           this.onFinish(e);
