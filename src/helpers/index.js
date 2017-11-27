@@ -3,11 +3,12 @@ import { RECTANGLE, LINE, ELLIPSE, POLYGON } from '../enums';
 import { Rect, Ellipse, Line } from 'react-konva';
 
 var dotCount = 0;
+// TODO: use unique ID
 
 const htmlDot = (x, y) => {
   return (
     <Rect
-      key={ dotCount++ }
+      key={ -(++dotCount) }
       x={ x - 2 }
       y={ y - 2 }
       strokeWidth={ 1 }

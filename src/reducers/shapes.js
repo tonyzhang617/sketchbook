@@ -1,5 +1,21 @@
 import { BEGIN_SHAPE, UPDATE_SHAPE, END_SHAPE, CANCEL_SHAPE } from '../actions';
 import { DELETE_SHAPE, REMOVE_LAST_POINT } from '../enums';
+import { RECTANGLE, LINE, ELLIPSE, POLYGON } from '../enums';
+
+const isValidShape = ({ type, points }) => {
+  let result = false;
+  switch (type) {
+    case LINE:
+    case RECTANGLE:
+    case ELLIPSE:
+      result = points.length >= 4;
+      break;
+    case POLYGON:
+      result = points.length >= 6;
+      break;
+  }
+  return result;
+};
 
 const shapes = (state = { drawn: [], new: null }, action) => {
   switch (action.type) {
@@ -61,24 +77,24 @@ const shapes = (state = { drawn: [], new: null }, action) => {
       newPoints.pop();
       newPoints.pop();
 
+      let drawnShape = Object.assign(_newShape, {
+        points: (
+          (action.extras != null && action.extras.append) ? [
+            ...newPoints,
+            action.newX,
+            action.newY,
+            action.newX,
+            action.newY
+          ] : [
+            ...newPoints,
+            action.newX,
+            action.newY
+          ]
+        )
+      });
+
       const _result = {
-        drawn: state.drawn.concat([Object.assign(
-          _newShape, {
-            points: (
-              (action.extras != null && action.extras.append) ? [
-                ...newPoints,
-                action.newX,
-                action.newY,
-                action.newX,
-                action.newY
-              ] : [
-                ...newPoints,
-                action.newX,
-                action.newY
-              ]
-            )
-          }
-        )]),
+        drawn: isValidShape(drawnShape) ? state.drawn.concat([drawnShape]) : state.drawn,
         new: null
       };
       return _result;
@@ -98,12 +114,9 @@ const shapes = (state = { drawn: [], new: null }, action) => {
           let _newPoints = [...state.new.points];
           _newPoints.pop();
           _newPoints.pop();
-          let newDrawn = (
-            _newPoints.length <= 2 ? state.drawn :
-            state.drawn.concat([Object.assign(__newShape, { points: _newPoints })])
-          );
+          let _drawnShape = Object.assign(__newShape, { points: _newPoints });
           return {
-            drawn: newDrawn,
+            drawn: isValidShape(_drawnShape) ? state.drawn.concat([_drawnShape]) : state.drawn,
             new: null
           };
         default:
