@@ -2,6 +2,23 @@ import React from 'react';
 import { RECTANGLE, LINE, ELLIPSE, POLYGON } from '../enums';
 import { Rect, Ellipse, Line } from 'react-konva';
 
+var dotCount = 0;
+
+const htmlDot = (x, y) => {
+  return (
+    <Rect
+      key={ dotCount++ }
+      x={ x - 2 }
+      y={ y - 2 }
+      strokeWidth={ 1 }
+      stroke='white'
+      width={ 4 }
+      height={ 4 }
+      fill='red'
+    />
+  );
+};
+
 export const shapeToHTML = (shapeObj) => {
   if (shapeObj === null) {
     return null;
@@ -45,7 +62,7 @@ export const shapeToHTML = (shapeObj) => {
         />
       );
     case LINE:
-      return (
+      let line = (
         <Line
           key={ shapeObj.key }
           x={0}
@@ -56,6 +73,20 @@ export const shapeToHTML = (shapeObj) => {
           tension={ shapeObj.curved ? 0.5 : 0 }
         />
       );
+      if (!shapeObj.new) {
+        return line;
+      } else {
+        let dots = [];
+        for (let i = 0; i < shapeObj.points.length; i += 2) {
+          dots.push(
+            htmlDot(shapeObj.points[i], shapeObj.points[i+1])
+          );
+        }
+        return ([
+          line,
+          ...dots
+        ]);
+      }
     case POLYGON:
       let polygon = (
         <Line
@@ -76,16 +107,7 @@ export const shapeToHTML = (shapeObj) => {
         let dots = [];
         for (let i = 0; i < shapeObj.points.length; i += 2) {
           dots.push(
-            <Rect
-              key={ shapeObj.key + '_' + i }
-              x={ shapeObj.points[i] - 2 }
-              y={ shapeObj.points[i+1] - 2 }
-              strokeWidth={ 1 }
-              stroke='white'
-              width={ 4 }
-              height={ 4 }
-              fill='red'
-            />
+            htmlDot(shapeObj.points[i], shapeObj.points[i+1])
           );
         }
         return ([
