@@ -1,4 +1,4 @@
-import { RECTANGLE, LINE, ELLIPSE } from '../enums';
+import { RECTANGLE, LINE, ELLIPSE, POLYGON } from '../enums';
 import { SET_PARAM, SET_SHAPE_PARAM } from '../actions';
 
 const params = (state = {
@@ -14,6 +14,9 @@ const params = (state = {
     },
     [ ELLIPSE ]: {
       circle: false
+    },
+    [ POLYGON ]: {
+      curved: false
     }
   },
   colorSelected: 'blue'

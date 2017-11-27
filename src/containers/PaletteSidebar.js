@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { LINE, RECTANGLE, ELLIPSE } from '../enums';
+import { LINE, RECTANGLE, ELLIPSE, POLYGON } from '../enums';
 import { PREPARE_DOWNLOAD, READY_DOWNLOAD, requestDownload, prepareDownload, finishDownload, setParam, setShapeParam } from '../actions';
 import PaletteSidebar from '../components/PaletteSidebar';
 
@@ -11,6 +11,7 @@ const mapStateToProps = state => ({
   lineParams: state.params.shapes[LINE],
   rectParams: state.params.shapes[RECTANGLE],
   ellipseParams: state.params.shapes[ELLIPSE],
+  polygonParams: state.params.shapes[POLYGON],
 
   isPreparingDownload: state.download.type === PREPARE_DOWNLOAD,
   isDownloadReady: state.download.type === READY_DOWNLOAD,

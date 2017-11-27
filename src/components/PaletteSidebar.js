@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Segment, Sidebar, Table, Accordion, Button, Icon, Checkbox } from 'semantic-ui-react';
-import { LINE, RECTANGLE, ELLIPSE } from '../enums';
+import { LINE, RECTANGLE, ELLIPSE, POLYGON } from '../enums';
 import colors from '../enums/colors';
 import '../stylesheets/Sidebar.css';
 
@@ -13,7 +13,7 @@ export default class PaletteSidebar extends Component {
   }
 
   render() {
-    const { shapeSelected, colorSelected, lineParams, rectParams, ellipseParams } = this.props;
+    const { shapeSelected, colorSelected, lineParams, rectParams, ellipseParams, polygonParams } = this.props;
     const { setParam, setShapeParam } = this.props;
     const checkmark = (
       <Icon
@@ -110,6 +110,28 @@ export default class PaletteSidebar extends Component {
               label={{ children: 'Circle' }}
               onChange={ e => {
                 setShapeParam(ELLIPSE, 'circle', !ellipseParams['circle']);
+              }}
+            />
+          </Accordion.Content>
+
+          <Accordion.Title
+            active={ shapeSelected === POLYGON }
+            index={2}
+            onTouchTap={ e => {
+              setParam('shapeSelected', POLYGON);
+            }}
+          >
+            { shapeSelected === POLYGON ? checkmark : dropdown }
+            Polygon
+          </Accordion.Title>
+          <Accordion.Content
+            active={ shapeSelected === POLYGON }
+            className='shape-type'
+          >
+            <Checkbox
+              label={{ children: 'Curved' }}
+              onChange={ e => {
+                setShapeParam(POLYGON, 'curved', !polygonParams['curved']);
               }}
             />
           </Accordion.Content>

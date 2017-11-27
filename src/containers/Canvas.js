@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { RECTANGLE, ELLIPSE, LINE } from '../enums';
+import { RECTANGLE, ELLIPSE, LINE, POLYGON } from '../enums';
 import { REQUEST_DOWNLOAD, prepareDownload, readyDownload, beginShape, updateShape, endShape, cancelShape } from '../actions';
 import Canvas from '../components/Canvas';
 
@@ -16,7 +16,9 @@ const mapStateToProps = (state, ownProps) => ({
     options: state.params.shapes[state.params.shapeSelected]
   },
   isDrawing: state.shapes.new !== null,
-  isContinuous: (state.params.shapeSelected === LINE && state.params.shapes[LINE].continuous),
+  isContinuous:
+    (state.params.shapeSelected === LINE && state.params.shapes[LINE].continuous) ||
+    state.params.shapeSelected === POLYGON,
   isRegular: (
     (state.params.shapeSelected === RECTANGLE && state.params.shapes[RECTANGLE].square) ||
     (state.params.shapeSelected === ELLIPSE && state.params.shapes[ELLIPSE].circle)

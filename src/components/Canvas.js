@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { shapeToHTML } from '../helpers';
 import { DELETE_SHAPE, REMOVE_LAST_POINT } from '../enums';
-import { Layer, Stage } from 'react-konva';
+import { FastLayer, Stage } from 'react-konva';
 
 class Canvas extends Component {
   registerMouseMoveListener() {
@@ -144,14 +144,14 @@ class Canvas extends Component {
           width={ this.props.width }
           height={ this.props.height }
         >
-          <Layer>{
+          <FastLayer>{
             this.props.shapes.map(shape => {
               return shapeToHTML(shape);
             })
-          }</Layer>
-          <Layer>{
+          }</FastLayer>
+          <FastLayer>{
             shapeToHTML(this.props.newShape)
-          }</Layer>
+          }</FastLayer>
         </Stage>
       </div>
     );

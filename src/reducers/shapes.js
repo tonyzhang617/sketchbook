@@ -8,6 +8,7 @@ const shapes = (state = { drawn: [], new: null }, action) => {
         drawn: state.drawn,
         new: {
           key: state.drawn.length,
+          new: true,
           ...action.extras,
           type: action.shapeType,
           color: action.color,
@@ -50,32 +51,34 @@ const shapes = (state = { drawn: [], new: null }, action) => {
         return state;
       }
 
-      let _newShape = state.new;
+      let _newShape = Object.assign({}, state.new);
       if (action.extras) {
         _newShape = Object.assign({}, state.new, action.extras);
       }
+      delete _newShape.new;
 
       let newPoints = [...state.new.points];
       newPoints.pop();
       newPoints.pop();
 
       const _result = {
-        drawn: state.drawn.concat([{
-          ..._newShape,
-          points: (
-            (action.extras != null && action.extras.append) ? [
-              ...newPoints,
-              action.newX,
-              action.newY,
-              action.newX,
-              action.newY
-            ] : [
-              ...newPoints,
-              action.newX,
-              action.newY
-            ]
-          )
-        }]),
+        drawn: state.drawn.concat([Object.assign(
+          _newShape, {
+            points: (
+              (action.extras != null && action.extras.append) ? [
+                ...newPoints,
+                action.newX,
+                action.newY,
+                action.newX,
+                action.newY
+              ] : [
+                ...newPoints,
+                action.newX,
+                action.newY
+              ]
+            )
+          }
+        )]),
         new: null
       };
       return _result;
@@ -90,12 +93,14 @@ const shapes = (state = { drawn: [], new: null }, action) => {
             new: null
           };
         case REMOVE_LAST_POINT:
+          let __newShape = Object.assign({}, state.new);
+          delete __newShape.new;
           let _newPoints = [...state.new.points];
           _newPoints.pop();
           _newPoints.pop();
           let newDrawn = (
             _newPoints.length <= 2 ? state.drawn :
-            state.drawn.concat([Object.assign({}, state.new, { points: _newPoints })])
+            state.drawn.concat([Object.assign(__newShape, { points: _newPoints })])
           );
           return {
             drawn: newDrawn,
