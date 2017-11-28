@@ -95,10 +95,11 @@ export const shapeToHTML = (shapeObj) => {
           x={0}
           y={0}
           points={ shapeObj.points }
-          fill={ shapeObj.color }
           strokeWidth={ 2 }
           stroke={ shapeObj.color }
-          closed
+          dash={ shapeObj.new ? [8, 8] : null }
+          fill={ shapeObj.new ? null : shapeObj.color }
+          closed={ shapeObj.points.length >= 6 ? true : false }
           tension={ shapeObj.curved ? 0.5 : 0 }
         />
       );
