@@ -2,7 +2,3 @@
 The project is hosted on [https://tonyzhang617.github.io/sketchbook/](https://tonyzhang617.github.io/sketchbook/ "Sketchbook").
 # Make Art with Sketchbook! 🎨🎨🎨
 <img width="720" align="center" src="https://github.com/tonyzhang617/sketchbook/blob/master/assets/piano.png" />
-# To-Dos
-- Separate container from component
-- Use Redux
-- Use document listener
