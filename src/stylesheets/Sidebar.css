@@ -16,9 +16,9 @@
   -webkit-box-shadow: 0 0 2px 2px #CCC !important;
 }
 
-.btn-group {
+.list-item {
   display: block !important;
-  margin-bottom: 8px !important;
+  margin-bottom: 4px !important;
 }
 
 .btn-color:hover {

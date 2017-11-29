@@ -60,6 +60,7 @@ export default class PaletteSidebar extends Component {
                   setShapeParam(LINE, 'continuous', true);
                 }
               }}
+              className='list-item'
             />
             <Checkbox
               label={{ children: 'Curved' }}
@@ -67,6 +68,7 @@ export default class PaletteSidebar extends Component {
               onChange={ e => {
                 setShapeParam(LINE, 'curved', !lineParams['curved']);
               }}
+              className='list-item'
             />
           </Accordion.Content>
 
@@ -89,6 +91,7 @@ export default class PaletteSidebar extends Component {
               onChange={ e => {
                 setShapeParam(RECTANGLE, 'square', !rectParams['square']);
               }}
+              className='list-item'
             />
           </Accordion.Content>
 
@@ -111,6 +114,7 @@ export default class PaletteSidebar extends Component {
               onChange={ e => {
                 setShapeParam(ELLIPSE, 'circle', !ellipseParams['circle']);
               }}
+              className='list-item'
             />
           </Accordion.Content>
 
@@ -133,6 +137,7 @@ export default class PaletteSidebar extends Component {
               onChange={ e => {
                 setShapeParam(POLYGON, 'curved', !polygonParams['curved']);
               }}
+              className='list-item'
             />
           </Accordion.Content>
         </Accordion>
@@ -163,7 +168,7 @@ export default class PaletteSidebar extends Component {
         <Divider />
 
         <div>
-          <Button.Group className='btn-group'>
+          <Button.Group className='list-item'>
             <Button
               content='Undo'
               icon='undo'
@@ -186,7 +191,7 @@ export default class PaletteSidebar extends Component {
             />
           </Button.Group>
           <Button
-            className='btn-group'
+            className='list-item'
             content='Download'
             icon='save'
             labelPosition='left'
