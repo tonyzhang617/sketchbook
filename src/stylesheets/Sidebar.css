@@ -16,6 +16,11 @@
   -webkit-box-shadow: 0 0 2px 2px #CCC !important;
 }
 
+.btn-group {
+  display: block !important;
+  margin-bottom: 8px !important;
+}
+
 .btn-color:hover {
   transform: scale(1.2);
 }

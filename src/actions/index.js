@@ -8,6 +8,9 @@ export const UPDATE_SHAPE = 'UPDATE_SHAPE';
 export const END_SHAPE = 'END_SHAPE';
 export const CANCEL_SHAPE = 'CANCEL_SHAPE';
 
+export const UNDO = 'UNDO';
+export const REDO = 'REDO';
+
 export const REQUEST_DOWNLOAD = 'REQUEST_DOWNLOAD';
 export const PREPARE_DOWNLOAD = 'PREPARE_DOWNLOAD';
 export const READY_DOWNLOAD = 'READY_DOWNLOAD';
@@ -59,6 +62,14 @@ export const cancelShape = (type, extras = null) => ({
   type: CANCEL_SHAPE,
   cancelType: type,
   extras: extras
+});
+
+export const undo = () => ({
+  type: UNDO
+});
+
+export const redo = () => ({
+  type: REDO
 });
 
 export const requestDownload = () => ({

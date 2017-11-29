@@ -1,4 +1,4 @@
-import { BEGIN_SHAPE, UPDATE_SHAPE, END_SHAPE, CANCEL_SHAPE } from '../actions';
+import { BEGIN_SHAPE, UPDATE_SHAPE, END_SHAPE, CANCEL_SHAPE, UNDO, REDO } from '../actions';
 import { DELETE_SHAPE, REMOVE_LAST_POINT } from '../enums';
 import { RECTANGLE, LINE, ELLIPSE, POLYGON } from '../enums';
 
@@ -17,8 +17,30 @@ const isValidShape = ({ type, points }) => {
   return result;
 };
 
-const shapes = (state = { drawn: [], new: null }, action) => {
+const shapes = (state = { drawn: [], new: null, popped: [] }, action) => {
   switch (action.type) {
+    case UNDO:
+      if (state.drawn.length === 0) {
+        return state;
+      }
+      let newDrawn = state.drawn;
+      let tmp = newDrawn.pop();
+      return ({
+        drawn: newDrawn,
+        new: null,
+        popped: state.popped.concat([tmp])
+      });
+    case REDO:
+      if (state.popped.length === 0) {
+        return state;
+      }
+      let newPopped = state.popped;
+      let tmp2 = newPopped.pop();
+      return ({
+        drawn: state.drawn.concat([tmp2]),
+        new: null,
+        popped: newPopped
+      });
     case BEGIN_SHAPE:
       let newState = ({
         drawn: state.drawn,
@@ -29,7 +51,8 @@ const shapes = (state = { drawn: [], new: null }, action) => {
           type: action.shapeType,
           color: action.color,
           points: [action.x, action.y, action.x, action.y]
-        }
+        },
+        popped: state.popped
       });
       return newState;
     case UPDATE_SHAPE:
@@ -58,7 +81,8 @@ const shapes = (state = { drawn: [], new: null }, action) => {
               action.newX,
               action.newY
             ])
-          }
+          },
+          popped: state.popped
         });
       }
       return result;
@@ -95,7 +119,8 @@ const shapes = (state = { drawn: [], new: null }, action) => {
 
       const _result = {
         drawn: isValidShape(drawnShape) ? state.drawn.concat([drawnShape]) : state.drawn,
-        new: null
+        new: null,
+        popped: []
       };
       return _result;
     case CANCEL_SHAPE:
@@ -106,7 +131,8 @@ const shapes = (state = { drawn: [], new: null }, action) => {
         case DELETE_SHAPE:
           return {
             drawn: state.drawn,
-            new: null
+            new: null,
+            popped: []
           };
         case REMOVE_LAST_POINT:
           let __newShape = Object.assign({}, state.new);
@@ -117,7 +143,8 @@ const shapes = (state = { drawn: [], new: null }, action) => {
           let _drawnShape = Object.assign(__newShape, { points: _newPoints });
           return {
             drawn: isValidShape(_drawnShape) ? state.drawn.concat([_drawnShape]) : state.drawn,
-            new: null
+            new: null,
+            popped: []
           };
         default:
           return state;

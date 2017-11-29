@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Segment, Sidebar, Table, Accordion, Button, Icon, Checkbox } from 'semantic-ui-react';
+import { Segment, Sidebar, Table, Accordion, Button, Icon, Checkbox, Divider } from 'semantic-ui-react';
 import { LINE, RECTANGLE, ELLIPSE, POLYGON } from '../enums';
 import colors from '../enums/colors';
 import '../stylesheets/Sidebar.css';
@@ -160,8 +160,33 @@ export default class PaletteSidebar extends Component {
           }
         </Segment>
 
-        <Segment>
+        <Divider />
+
+        <div>
+          <Button.Group className='btn-group'>
+            <Button
+              content='Undo'
+              icon='undo'
+              labelPosition='left'
+              onTouchTap={e => {
+                this.props.undo();
+              }}
+              disabled={ !this.props.canUndo }
+              compact
+            />
+            <Button
+              content='Redo'
+              icon={ <Icon name='undo' flipped='horizontally' /> }
+              labelPosition='right'
+              onTouchTap={e => {
+                this.props.redo();
+              }}
+              disabled={ !this.props.canRedo }
+              compact
+            />
+          </Button.Group>
           <Button
+            className='btn-group'
             content='Download'
             icon='save'
             labelPosition='left'
@@ -175,7 +200,7 @@ export default class PaletteSidebar extends Component {
             ref={ dlLink => this.dlLink = dlLink }
             download='sketch.png'
           />
-        </Segment>
+        </div>
       </div>
     );
 

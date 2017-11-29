@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { LINE, RECTANGLE, ELLIPSE, POLYGON } from '../enums';
-import { PREPARE_DOWNLOAD, READY_DOWNLOAD, requestDownload, prepareDownload, finishDownload, setParam, setShapeParam } from '../actions';
+import { undo, redo, PREPARE_DOWNLOAD, READY_DOWNLOAD, requestDownload, prepareDownload, finishDownload, setParam, setShapeParam } from '../actions';
 import PaletteSidebar from '../components/PaletteSidebar';
 
 const mapStateToProps = state => ({
@@ -15,7 +15,10 @@ const mapStateToProps = state => ({
 
   isPreparingDownload: state.download.type === PREPARE_DOWNLOAD,
   isDownloadReady: state.download.type === READY_DOWNLOAD,
-  downloadData: state.download.dataUrl
+  downloadData: state.download.dataUrl,
+
+  canUndo: state.shapes.drawn.length > 0,
+  canRedo: state.shapes.popped.length > 0,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -25,6 +28,14 @@ const mapDispatchToProps = dispatch => ({
 
   setShapeParam: (shapeType, key, value) => {
     dispatch(setShapeParam(shapeType, key, value));
+  },
+
+  undo: () => {
+    dispatch(undo());
+  },
+
+  redo: () => {
+    dispatch(redo());
   },
 
   requestDownload: () => {
